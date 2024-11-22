@@ -1,0 +1,37 @@
+body {
+    background: linear-gradient(to right, #6a11cb, #2575fc);
+    color: #fff;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+}
+.login-container {
+    background: #ffffff33;
+    backdrop-filter: blur(10px);
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    padding: 30px;
+    width: 100%;
+    max-width: 400px;
+}
+.form-control:focus {
+    box-shadow: 0 0 5px #6a11cb;
+    border-color: #6a11cb;
+}
+.btn-primary {
+    background: #6a11cb;
+    border-color: #6a11cb;
+    font-weight: bold;
+}
+.btn-primary:hover {
+    background: #2575fc;
+    border-color: #2575fc;
+}
+.link {
+    color: white;
+}
+.link:hover {
+    text-decoration: underline;
+}
