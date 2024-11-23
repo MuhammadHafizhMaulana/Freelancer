@@ -3,6 +3,16 @@ session_start();
 if(!isset($_SESSION['status']) || $_SESSION['status'] !== 'login'){
 header('Location: index.php');
 }
+
+    include '../proses/koneksi.php';
+    $id = $_SESSION['id'];
+    $query = "SELECT * FROM `user` WHERE `id` = '$id' ";
+    $sql = mysqli_query($connect, $query);
+    $data = mysqli_fetch_assoc($sql);
+
+    // $query = "SELECT * FROM `pembiayaan` WHERE `id_user` = '$id' ";
+    // $sql = mysqli_query($connect, $query);
+    // $pembiayaan = mysqli_fetch_assoc($sql);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -32,10 +42,13 @@ header('Location: index.php');
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link active" href="profile.html">Profile</a>
+                        <a class="nav-link active" href="home.php">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="create_job.html">Create Job/Project</a>
+                        <a class="nav-link " href="profile.php">Profile</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="project.php">Project</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-danger" href="../proses/logout.php">Logout</a>

@@ -4,7 +4,7 @@ if(!isset($_SESSION['status']) || $_SESSION['status'] !== 'login'){
 header('Location: index.php');
 }
 
-include './proses/koneksi.php';
+include '../proses/koneksi.php';
     $id = $_SESSION['id'];
     $query = "SELECT * FROM `user` WHERE `id` = '$id' ";
     $sql = mysqli_query($connect, $query);
@@ -13,7 +13,7 @@ include './proses/koneksi.php';
     if(!$data['foto_profile']){
         $fotoProfile = 'https://via.placeholder.com/150';
     } else {
-        $fotoProfile = "./assets/foto_profile/" . $data['foto_profile'];
+        $fotoProfile = "../assets/foto_profile/" . $data['foto_profile'];
     }
     
 ?>
@@ -47,25 +47,25 @@ include './proses/koneksi.php';
 </head>
 <body>
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container">
-            <a class="navbar-brand" href="#">Freelancer</a>
+            <a class="navbar-brand" href="#">Freelancer Platform</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="home.php">Home</a>
+                        <a class="nav-link " href="home.php">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="Profile.php">Profile</a>
+                        <a class="nav-link active" href="profile.php">Profile</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="jobs.php">Jobs</a>
+                        <a class="nav-link" href="project.php">Project</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="./proses/logout.php">Logout</a>
+                        <a class="nav-link text-danger" href="../proses/logout.php">Logout</a>
                     </li>
                 </ul>
             </div>
