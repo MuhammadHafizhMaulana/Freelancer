@@ -1,22 +1,94 @@
+<?php
+session_start();
+if(!isset($_SESSION['status']) || $_SESSION['status'] !== 'login'){
+header('Location: index.php');
+}
+include 'proses/koneksi.php';
+
+// Mendapatkan ID proyek dari URL
+$id = $_GET['id'] ?? null;
+
+// Menggunakan prepared statement untuk query proyek
+$stmt = $connect->prepare("SELECT * FROM `job` WHERE id = ?");
+$stmt->bind_param("i", $id);
+$stmt->execute();
+$result = $stmt->get_result();
+$project = $result->fetch_assoc();
+
+if (!$project) {
+    die("Proyek tidak ditemukan.");
+}
+
+// Menggunakan prepared statement untuk query pekerja
+$id_worker = $project['id_worker'];
+$stmtWorker = $connect->prepare("SELECT * FROM `user` WHERE id = ?");
+$stmtWorker->bind_param("i", $id_worker);
+$stmtWorker->execute();
+$resultWorker = $stmtWorker->get_result();
+$worker = $resultWorker->fetch_assoc();
+
+// Menggunakan prepared statement untuk query client
+$id_client = $project['id_client'];
+$stmtClient = $connect->prepare("SELECT * FROM `user` WHERE id = ?");
+$stmtClient->bind_param("i", $id_client);
+$stmtClient->execute();
+$resultClient = $stmtClient->get_result();
+$client = $resultClient->fetch_assoc();
+
+if (!$project) {
+    echo "Proyek tidak ditemukan.";
+    exit;
+}
+
+if(!$project['status']){
+    $status = "published";
+}
+
+// Memecah string tags menjadi array
+$tags = explode(',', $project['kategori']);
+
+// Dummy data pekerja dan owner
+$owner = [
+    'username' => 'tembokpermata0012',
+    'rating' => 0.0,
+    'points' => 0,
+    'ranking' => 'No Ranking',
+    'avatar' => 'owner_avatar.png', // Ganti dengan path file avatar
+];
+
+$worker = [
+    'username' => 'galihboy',
+    'rating' => 10.0,
+    'points' => 206,
+    'ranking' => '#2,458 dari 1,253,244',
+    'avatar' => 'worker_avatar.png', // Ganti dengan path file avatar
+];
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Job Detail - Freelancer</title>
+    <title>Detail Proyek - <?php echo htmlspecialchars($project['title']); ?></title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        body {
-            background-color: #f8f9fa;
+        .badge-status {
+            background-color: #ffc107;
+            color: #000;
+            padding: 0.5em 1em;
+            border-radius: 5px;
+            font-size: 0.9em;
         }
-        .job-detail-card {
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        .owner, .worker {
+            text-align: center;
         }
-        .apply-btn {
-            display: flex;
-            justify-content: center;
-            margin-top: 20px;
+        .owner img, .worker img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin-bottom: 1em;
         }
     </style>
 </head>
@@ -34,68 +106,75 @@
                         <a class="nav-link" href="home.php">Home</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="myJobs.php">My Jobs</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="profile.php">Profile</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="jobs.php">Jobs</a>
+                        <a class="nav-link active" href="jobs.php">Jobs</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="logout.html">Logout</a>
+                        <a class="nav-link" href="./proses/logout.php">Logout</a>
                     </li>
                 </ul>
             </div>
         </div>
-    </nav>
+    </nav>    
 
-    <!-- Header -->
-    <header class="py-5 bg-primary text-white text-center">
-        <div class="container">
-            <h1>Job Detail</h1>
-            <p>Explore the full details of this job opportunity</p>
+    <div class="container mt-4">
+        <h2 class="text-danger mt-3"><?php echo htmlspecialchars($project['nama_job']); ?></h2>
+        <p><?php echo nl2br(htmlspecialchars($project['deskripsi'])); ?></p>
+        <div>
+            <?php foreach ($tags as $tag): ?>
+                <span class="badge bg-secondary"><?= htmlspecialchars(trim($tag)) ?></span>
+            <?php endforeach; ?>
         </div>
-    </header>
-
-    <!-- Job Detail -->
-    <div class="container my-5">
-        <div class="card job-detail-card">
-            <div class="card-body">
-                <h3 class="card-title">Web Developer</h3>
-                <p class="card-text text-muted">Posted on: <strong>2024-11-22</strong></p>
-                <hr>
-                <h5>Job Description</h5>
-                <p>
-                    We are looking for an experienced web developer to build and maintain a responsive website. The ideal candidate should have knowledge of HTML, CSS, JavaScript, and basic PHP.
-                </p>
-                <h5>Requirements</h5>
-                <ul>
-                    <li>Proficiency in HTML, CSS, and JavaScript</li>
-                    <li>Experience with responsive design</li>
-                    <li>Basic understanding of PHP and MySQL</li>
-                </ul>
-                <h5>Budget and Duration</h5>
-                <p><strong>Budget:</strong> $500</p>
-                <p><strong>Duration:</strong> 3 months</p>
-                <h5>Additional Details</h5>
-                <p>
-                    This project requires weekly updates and close collaboration with our design team. The website must be fully optimized for mobile devices and meet current accessibility standards.
-                </p>
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <p><strong>Published Budget:</strong> Rp <?php echo htmlspecialchars($project['budget']); ?></p>
+                <p><strong>Finish Days:</strong> <?php echo htmlspecialchars($project['durasi'] ? $project['durasi'] : "" ); ?></p>
+                <p><strong>Published Date:</strong> <?php echo htmlspecialchars($project['publish_date'] ? $project['publish_date'] : ""); ?></p>
+                <p><strong>Start Date:</strong> <?php echo htmlspecialchars($project['start_date'] ?  $project['start_date'] : "-"); ?></p>
+                <p><strong>Finish Date:</strong> <?php echo htmlspecialchars($project['finish_date'] ? $project['finish_date'] : "-"); ?></p>
+            </div>
+            <div class="col-md-6">
+                <p><strong>Project Status:</strong> <span class="badge-status"><?=$status?></span></p>
+                <p><strong>Accepted Worker:</strong> <?php echo htmlspecialchars($project['id_worker'] ? $worker['nama'] : '-'); ?></p>
+                <p><strong>Accepted Budget:</strong> Rp <?php echo htmlspecialchars($project['price'] ?? '-'); ?></p>
+                <p><strong>Project Ending:</strong> <?php echo htmlspecialchars($project['ending'] ?? '-'); ?></p>
             </div>
         </div>
 
-        <!-- Apply Button -->
-        <div class="apply-btn">
-            <a href="apply.php" class="btn btn-success btn-lg">
-                Apply Now
-            </a>
+        <hr>
+
+        <div class="row">
+            <div class="col-md-6 owner">
+                <h4>Project Owner</h4>
+                <img src="../assets/foto_profile/<?php echo $client['foto_profile']; ?>" alt="Owner Avatar">
+                <p><strong><?php echo htmlspecialchars($client['nama']); ?></strong></p>
+                </div>
+            <div class="col-md-6 worker">
+                <h4>Accepted Worker</h4>
+                <?php
+                if (!$project['id_worker']) {
+                    echo "Bid masih terbuka";
+                ?>
+                    <br>
+                    <br>
+                    <a href="apply.php?id=<?= $project['id']?>" class="btn btn-success">Place new bid</a>
+                <?php
+                } else {
+                    ?>
+                    <div>
+                        <img src="assets/<?php echo htmlspecialchars($worker['foto_profile'] ?? 'default.png'); ?>" alt="Worker Avatar">
+                        <p><strong><?php echo htmlspecialchars($worker['nama'] ?? '-'); ?></strong></p>
+                    </div>
+                    <?php
+                }
+                ?>
         </div>
     </div>
-
-    <!-- Footer -->
-    <footer class="bg-dark text-white py-3">
-        <div class="container text-center">
-            <p>&copy; 2024 Freelancer. All Rights Reserved.</p>
-        </div>
-    </footer>
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

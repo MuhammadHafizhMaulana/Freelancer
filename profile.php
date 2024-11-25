@@ -59,6 +59,9 @@ include './proses/koneksi.php';
                         <a class="nav-link" href="home.php">Home</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="myJobs.php">My Jobs</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link active" href="Profile.php">Profile</a>
                     </li>
                     <li class="nav-item">

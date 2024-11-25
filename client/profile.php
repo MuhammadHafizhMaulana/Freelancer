@@ -120,7 +120,7 @@ include '../proses/koneksi.php';
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="./proses/profileEditProses.php" method="post" enctype="multipart/form-data" >
+                    <form action="../proses/profileEditProses.php" method="post" enctype="multipart/form-data" >
                         <div class="mb-3">
                             <label for="foto_profile" class="form-label">Foto Profile</label>
                             <input type="file" class="form-control" id="foto_profile" name="foto_profile" required >

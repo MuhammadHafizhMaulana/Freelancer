@@ -1,3 +1,28 @@
+<?php
+session_start();
+if(!isset($_SESSION['status']) || $_SESSION['status'] !== 'login'){
+header('Location: index.php');
+}
+
+include './proses/koneksi.php';
+
+// Mendapatkan ID proyek dari URL
+$id = $_GET['id'] ?? null;
+
+// Validasi ID
+if (!$id) {
+    die("ID proyek tidak ditemukan.");
+}
+
+// Menggunakan prepared statement untuk query proyek
+$stmt = $connect->prepare("SELECT * FROM `job` WHERE id = ?");
+$stmt->bind_param("i", $id);
+$stmt->execute();
+$result = $stmt->get_result();
+$data = $result->fetch_assoc();
+
+$selected_categories = explode(',', $data['kategori']);
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -29,13 +54,16 @@
                         <a class="nav-link" href="home.php">Home</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="myJobs.php">My Jobs</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="profile.php">Profile</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="jobs.php">Jobs</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="logout.php">Logout</a>
+                        <a class="nav-link" href="proses/logout.php">Logout</a>
                     </li>
                 </ul>
             </div>
@@ -54,37 +82,36 @@
     <div class="container my-5">
         <div class="card apply-card">
             <div class="card-body">
-                <h3 class="card-title">Web Developer</h3>
-                <p class="card-text text-muted">Posted on: <strong>2024-11-22</strong></p>
+                <h3 class="card-title"><?=$data['nama_job']?></h3>
+                <p class="card-text text-muted">Published Budget: <strong><?=$data['budget'] ?></strong></p>
+                <p class="card-text text-muted">Posted on: <strong><?=$data['publish_date'] ?></strong></p>
                 <hr>
 
-                <form action="proses/apply_job_proses.php" method="post" id="applyForm">
-                    <!-- Personal Information -->
-                    <div class="form-group">
-                        <label for="nama">Full Name</label>
-                        <input type="text" class="form-control" id="nama" name="nama" placeholder="Your Full Name" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="email">E-mail</label>
-                        <input type="email" class="form-control" id="email" name="email" placeholder="Your E-mail" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="nomor">Phone Number</label>
-                        <input type="text" class="form-control" id="nomor" name="nomor" placeholder="Your Phone Number" required>
-                    </div>
-
+                <form action="proses/apply_job_proses.php" method="post" id="applyForm" enctype="multipart/form-data">
                     <!-- Upload Resume -->
                     <div class="form-group">
                         <label for="resume">Upload Your Resume (PDF, DOCX)</label>
-                        <input type="file" class="form-control" id="resume" name="resume" accept=".pdf,.docx" required>
+                        <input type="file" class="form-control" id="resume" name="resume" required>
                     </div>
 
                     <!-- Cover Letter -->
                     <div class="form-group">
                         <label for="coverLetter">Cover Letter</label>
-                        <textarea class="form-control" id="coverLetter" name="coverLetter" rows="4" placeholder="Write your cover letter here" required></textarea>
+                        <textarea class="form-control" id="deskripsi" name="deskripsi" rows="4" placeholder="Write your cover letter here"></textarea>
+                    </div>
+
+                    <!-- Price -->
+                    <div class="form-group">
+                        <label for="coverLetter">Bid Price</label>
+                        <input type="number" class="form-control" id="bid_price" name="bid_price" ></input>
+                    </div>
+
+                    <div class="mb-3">
+                        <input type="hidden" class="form-control" id="id_job" name="id_job" value="<?php echo $data['id']; ?>" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <input type="hidden" class="form-control" id="id_worker" name="id_worker" value="<?php echo $_SESSION['id']; ?>" required>
                     </div>
 
                     <!-- Submit Button -->

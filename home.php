@@ -10,6 +10,12 @@ header('Location: index.php');
     $sql = mysqli_query($connect, $query);
     $data = mysqli_fetch_assoc($sql);
 
+    include 'proses/koneksi.php';
+
+    // Query untuk mengambil semua job
+    $query = "SELECT * FROM `job` LIMIT 9 ";
+    $sql = mysqli_query($connect, $query);
+
     // $query = "SELECT * FROM `pembiayaan` WHERE `id_user` = '$id' ";
     // $sql = mysqli_query($connect, $query);
     // $pembiayaan = mysqli_fetch_assoc($sql);
@@ -55,6 +61,9 @@ header('Location: index.php');
                         <a class="nav-link active" href="home.php">Home</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="myJobs.php">My Jobs</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="profile.php">Profile</a>
                     </li>
                     <li class="nav-item">
@@ -76,42 +85,38 @@ header('Location: index.php');
         </div>
     </div>
 
-    <!-- Content Section -->
+    <!-- Job Section -->
     <div class="container mt-4">
         <h2 class="text-center mb-4">Explore Jobs</h2>
         <div class="row">
-            <!-- Job Card 1 -->
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Web Development</h5>
-                        <p class="card-text">Looking for a web developer to create a modern website.</p>
-                        <a href="#" class="btn btn-primary">View Details</a>
+            <?php
+            if (mysqli_num_rows($sql) > 0) {
+                // Menampilkan semua job
+                while ($data = mysqli_fetch_assoc($sql)) {
+                    echo '
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <h5 class="card-title">' . htmlspecialchars($data['nama_job']) . '</h5>
+                                <p class="card-text">' . htmlspecialchars(mb_strimwidth($data['deskripsi'], 0, 100, '...')) . '</p>
+                                <a href="detailJobs.php?id=' . $data['id'] . '" class="btn btn-primary">View Details</a>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-            <!-- Job Card 2 -->
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Graphic Design</h5>
-                        <p class="card-text">Need a graphic designer for logo creation.</p>
-                        <a href="#" class="btn btn-primary">View Details</a>
-                    </div>
-                </div>
-            </div>
-            <!-- Job Card 3 -->
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Content Writing</h5>
-                        <p class="card-text">Hiring a writer to create SEO-friendly blog articles.</p>
-                        <a href="#" class="btn btn-primary">View Details</a>
-                    </div>
-                </div>
-            </div>
+                    ';
+                }
+            } else {
+                echo '<p class="text-center">Tidak ada job yang ditemukan.</p>';
+            }
+            ?>
+        </div>
+        <!-- Tombol Lihat Semua Job -->
+        <div class="text-center mt-4">
+            <a href="jobs.php" class="btn btn-secondary">Lihat Semua Job</a>
         </div>
     </div>
+
+    
 
     <!-- Footer -->
     <footer class="bg-dark text-white mt-5">

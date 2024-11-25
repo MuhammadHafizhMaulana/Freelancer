@@ -8,14 +8,21 @@ header('Location: index.php');
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project History</title>
+    <title>Jobs - Freelancer</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
             background-color: #f8f9fa;
+        }
+        .job-card {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: 0.3s;
+        }
+        .job-card:hover {
+            transform: scale(1.02);
         }
         .card-header {
             background-color: #007bff;
@@ -37,9 +44,9 @@ header('Location: index.php');
 </head>
 <body>
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
-            <a class="navbar-brand" href="#">Freelancer Platform</a>
+            <a class="navbar-brand" href="#">Freelancer</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -49,13 +56,16 @@ header('Location: index.php');
                         <a class="nav-link" href="home.php">Home</a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="myJobs.php">My Jobs</a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="profile.php">Profile</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="projects.php">Projects</a>
+                        <a class="nav-link active" href="jobs.php">Jobs</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-danger" href="../proses/logout.php">Logout</a>
+                        <a class="nav-link" href="./proses/logout.php">Logout</a>
                     </li>
                 </ul>
             </div>
@@ -74,7 +84,7 @@ header('Location: index.php');
         
         <!-- List of Projects -->
         <?php
-        include '../proses/koneksi.php';
+        include './proses/koneksi.php';
         $id = $_SESSION['id']; // Ambil ID client dari sesi login
 
         // Query untuk mengambil semua job
@@ -92,9 +102,9 @@ header('Location: index.php');
                     <div class='card-body'>
                         <h5 class='card-title'>" . htmlspecialchars($data['nama_job']) . "</h5>
                         <p class='card-text'>" . htmlspecialchars($data['deskripsi']) . "</p>
-                        <p class='card-text'><strong>Budget:</strong> " . htmlspecialchars($data['budget']) . "</p>
-                        <p class='card-text'><strong>Kategori:</strong> " . htmlspecialchars($data['kategori']) . "</p>
-                        <p class='card-text'><strong>Status :</strong> " . htmlspecialchars($status) . "</p>
+                        <p class='card-text'><strong>Deal Price:</strong> " . htmlspecialchars($data['price']) . "</p>
+                        <p class='card-text'><strong>Start Date:</strong> " . htmlspecialchars($data['start_date']) . "</p>
+                        <p class='card-text'><strong>Deadline :</strong> " . htmlspecialchars($data['finish_date']) . "</p>
                         <a href='detailJob.php?id=" . htmlspecialchars($data['id']) . "' class='btn btn-primary'>Lihat Detail</a>
                 ";
         

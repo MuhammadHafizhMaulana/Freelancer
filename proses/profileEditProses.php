@@ -62,34 +62,50 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Fungsi untuk menyimpan nama file ke dalam database
     function uploadImageToDatabase($imageFileName) {
         include 'koneksi.php';
+    
+        // Pastikan session_start() sudah dipanggil
+        session_start();
+    
         // Ambil ID pengguna dari sesi
         $id = $_SESSION['id'];
-        
+    
         // Menyimpan nama file gambar ke database
         $sql = "UPDATE user SET foto_profile = ? WHERE id = ?";
         $stmt = mysqli_prepare($connect, $sql);
-
+    
         if ($stmt) {
             mysqli_stmt_bind_param($stmt, "ss", $imageFileName, $id);
             $result = mysqli_stmt_execute($stmt);
-
+    
             if ($result) {
-
-                if($data['role'] === "worker"){
+                // Menggunakan prepared statement untuk query proyek
+                $stament = $connect->prepare("SELECT * FROM `user` WHERE id = ?");
+                $stament->bind_param("i", $id);
+                $stament->execute();
+                $result = $stament->get_result(); // Perbaikan: gunakan $stament
+                $data = $result->fetch_assoc();
+    
+                // Redirect berdasarkan role
+                if ($data['role'] === "worker") {
                     header('Location: ./../profile.php?success=1'); // Redirect jika berhasil
+                    exit(); // Pastikan eksekusi berhenti setelah redirect
                 } else if ($data['role'] === "client") {
                     header('Location: ./../client/profile.php?success=1'); // Redirect jika berhasil
+                    exit(); // Pastikan eksekusi berhenti setelah redirect
                 }
-                
             } else {
                 echo "Tambah data user gagal: " . mysqli_stmt_error($stmt); // Menampilkan error jika gagal
             }
-
+    
             mysqli_stmt_close($stmt);
         } else {
             echo "Gagal menyiapkan query: " . mysqli_error($connect);
         }
+    
+        // Tutup koneksi
+        mysqli_close($connect);
     }
+    
 
     // Ambil ID pengguna dari sesi
     $id = isset($_SESSION['id']) ? htmlspecialchars($_SESSION['id']) : '';

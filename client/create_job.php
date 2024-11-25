@@ -117,9 +117,21 @@ header('Location: index.php');
                 <small id="category_alert" class="form-text text-danger"></small>
             </div>
 
-            <!-- Deadline -->
+            <!-- Detail -->
             <div class="form-group mb-3">
-                <label for="deadline">Deadline</label>
+                <label for="deadline">Detail</label>
+                <textarea class="form-control" id="detail" name="detail" rows="5" placeholder="Describe the detail of project" ></textarea>
+            </div>
+
+            <!-- Durasi -->
+            <div class="form-group mb-3">
+                <label for="deadline">Duration (day)</label>
+                <input type="number" class="form-control" id="durasi" name="durasi" required>
+            </div>
+
+            <!-- Deadline Publish -->
+            <div class="form-group mb-3">
+                <label for="deadline">Deadline Publish</label>
                 <input type="date" class="form-control" id="deadline" name="deadline" required>
             </div>
 
