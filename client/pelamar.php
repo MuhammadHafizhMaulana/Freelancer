@@ -1,4 +1,10 @@
 <?php
+session_start();
+if(!isset($_SESSION['status']) || $_SESSION['status'] !== 'login' || $_SESSION['role'] !== 'client'){
+header('Location: ../index.php');
+exit();
+}
+
 include '../proses/koneksi.php'; // Pastikan file koneksi sudah disiapkan
 
 // Ambil ID job dari parameter URL

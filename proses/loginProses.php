@@ -43,10 +43,13 @@ if ($stmt) {
             // Jika sesuai, redirect ke halaman home
             if($data['role'] === 'client'){
                 header('Location: ./../client/home.php');
+                $_SESSION['role'] = 'client';
             } else if($data['role'] === 'admin'){
-                header('Location: ./../admin/home.php');
+                header('Location: ./../admin/index.php');
+                $_SESSION['role'] = 'admin';
             } else{
                 header('Location: ../home.php?login=success');
+                $_SESSION['role'] = 'worker';
             }
 
             } else {

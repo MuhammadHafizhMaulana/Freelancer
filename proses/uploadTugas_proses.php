@@ -54,15 +54,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 
     // Fungsi untuk menyimpan nama file ke dalam database
-    function uploadResultToDatabase($resultFileName, $status, $id_job ) {
+    function uploadResultToDatabase($resultFileName, $status, $finish_date, $id_job ) {
         include 'koneksi.php';
 
         // Query untuk menyimpan result ke dalam kolom
-        $sql = "UPDATE job SET result = ?, status = ? WHERE id = ?";
+        $sql = "UPDATE job SET result = ?, status = ?, finish_date =? WHERE id = ?";
         $stmt = mysqli_prepare($connect, $sql);
 
         if ($stmt) {
-            mysqli_stmt_bind_param($stmt, "ssi", $resultFileName,$status, $id_job);
+            mysqli_stmt_bind_param($stmt, "sssi", $resultFileName,$status, $finish_date, $id_job);
             $result = mysqli_stmt_execute($stmt);
 
             if ($result) {
@@ -85,14 +85,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Ambil ID job dan worker dari form
     $id_job = isset($_POST['id_job']) ? htmlspecialchars($_POST['id_job']) : '';
     $id_worker = isset($_SESSION['id']) ? htmlspecialchars($_SESSION['id']) : '';
+    $finish_date = date('Y-m-d H:i:s');
     $status = "Verify";
 
     // Memanggil fungsi untuk mengunggah file result
     if (isset($_FILES['result'])) {
-        $fileName = uploadFile('result', $targetDir,$id_job, $id_worker, 'result');
+        $fileName = uploadFile('result', $targetDir,$id_job,  $id_worker, 'result');
         if ($fileName) {
             // Setelah berhasil upload, simpan nama file ke database
-            uploadResultToDatabase($fileName, $status, $id_job);
+            uploadResultToDatabase($fileName, $status, $finish_date, $id_job);
         }
     } else {
         echo "Input file tidak ditemukan.";

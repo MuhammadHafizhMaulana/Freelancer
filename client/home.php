@@ -1,9 +1,9 @@
 <?php
 session_start();
-if(!isset($_SESSION['status']) || $_SESSION['status'] !== 'login'){
-header('Location: index.php');
+if(!isset($_SESSION['status']) || $_SESSION['status'] !== 'login' || $_SESSION['role'] !== 'client'){
+header('Location: ../index.php');
+exit();
 }
-
     include '../proses/koneksi.php';
     $id = $_SESSION['id'];
     $query = "SELECT * FROM `user` WHERE `id` = '$id' ";

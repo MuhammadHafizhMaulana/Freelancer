@@ -1,7 +1,8 @@
 <?php
 session_start();
-if(!isset($_SESSION['status']) || $_SESSION['status'] !== 'login'){
+if(!isset($_SESSION['status']) || $_SESSION['status'] !== 'login' || $_SESSION['role'] !== 'worker'){
 header('Location: index.php');
+exit();
 }
 include 'proses/koneksi.php';
 

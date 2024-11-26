@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Redirect setelah update
         header("Location: ../client/lihatResult.php?id=$id");
-        exit;
+        exit();
     }
 }
 ?>

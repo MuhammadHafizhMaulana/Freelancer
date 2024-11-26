@@ -1,8 +1,8 @@
 <?php
 session_start();
-if(!isset($_SESSION['status']) || $_SESSION['status'] !== 'login'){
-    header('Location: index.php');
-    exit;
+if(!isset($_SESSION['status']) || $_SESSION['status'] !== 'login' || $_SESSION['role'] !== 'client'){
+header('Location: ../index.php');
+exit();
 }
 
 include '../proses/koneksi.php';
@@ -126,44 +126,36 @@ $tags = explode(',', $project['kategori']);
         <hr>
 
         <h4 class="text-primary">Hasil Proyek</h4>
-        <?php if (!empty($resultFiles)): ?>
+        <?php if (!empty($result)): ?>
             <div class="list-group mb-3">
-                <?php foreach ($resultFiles as $file): ?>
-                    <div class="list-group-item d-flex justify-content-between align-items-center">
-                        <a href="assets/result/<?php echo htmlspecialchars($result); ?>" target="_blank" class="text-decoration-none text-info">
-                            <?php echo htmlspecialchars($file); ?>
-                        </a>
-                        <?php
-                        if($project['status'] == "Verify"){
-?>
-                        <div class="btn-group" role="group">
-                            <form method="POST" action="../proses/resultProses.php" class="d-inline">
-                                <input type="hidden" name="id" value="<?=$project['id']?>">
-                                <button type="submit" name="action" value="acc" class="btn btn-success btn-sm">Accept</button>
-                            </form>
-                            <form method="POST" action="../proses/resultProses.php" class="d-inline">
-                            <input type="hidden" name="id" value="<?=$project['id']?>">
-                                <button type="submit" name="action" value="decline" class="btn btn-danger btn-sm">Decline</button>
-                            </form>
-                        </div>
-                        <?php
-                        } else if ($project['status'] == "Waiting Payment"){
-                        ?>
-                        <form method="POST" action="payment.php" class="d-inline">
-                            <input type="hidden" name="id" value="<?=$project['id']?>">
-                            <button class="btn btn-success btn-sm" disabled >Waiting for Payment</button>
-                            <a href="payment.php?id=<?=$project['id']?>" class="btn btn-primary btn-sm">
-                                <i class="bi bi-plus-circle"></i> Pay
-                            </a>
+                <div class="list-group-item d-flex justify-content-between align-items-center">
+                    <a href="assets/result/<?php echo htmlspecialchars($result); ?>" target="_blank" class="text-decoration-none text-info">
+                        <?php echo htmlspecialchars($result); ?>
+                    </a>
+                    <?php if ($status == "Verify"): ?>
+                    <div class="btn-group" role="group">
+                        <form method="POST" action="../proses/resultProses.php" class="d-inline">
+                            <input type="hidden" name="id" value="<?= $project['id'] ?>">
+                            <button type="submit" name="action" value="acc" class="btn btn-success btn-sm">Accept</button>
                         </form>
-                        <?php    
-                        }
-                        ?>
+                        <form method="POST" action="../proses/resultProses.php" class="d-inline">
+                            <input type="hidden" name="id" value="<?= $project['id'] ?>">
+                            <button type="submit" name="action" value="decline" class="btn btn-danger btn-sm">Decline</button>
+                        </form>
                     </div>
-                <?php endforeach; ?>
+                    <?php elseif ($status == "Waiting Payment"): ?>
+                    <form method="POST" action="payment.php" class="d-inline">
+                        <input type="hidden" name="id" value="<?= $projectId ?>">
+                        <button class="btn btn-success btn-sm" disabled>Waiting for Payment</button>
+                        <a href="payment.php?id=<?= $project['id'] ?>" class="btn btn-primary btn-sm">
+                            <i class="bi bi-plus-circle"></i> Pay
+                        </a>
+                    </form>
+                    <?php endif; ?>
+                </div>
             </div>
         <?php else: ?>
-            <p class="text-warning">Belum ada hasil untuk proyek ini.</p>
+            <p>No file available.</p>
         <?php endif; ?>
 
         <hr>

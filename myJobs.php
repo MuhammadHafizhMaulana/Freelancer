@@ -1,7 +1,8 @@
 <?php
 session_start();
-if(!isset($_SESSION['status']) || $_SESSION['status'] !== 'login'){
+if(!isset($_SESSION['status']) || $_SESSION['status'] !== 'login' || $_SESSION['role'] !== 'worker'){
 header('Location: index.php');
+exit();
 }
 
 ?>
@@ -86,7 +87,10 @@ header('Location: index.php');
         
 
         // Query untuk mengambil semua job
-        $query = "SELECT * FROM `job` WHERE `id_worker` = '$id'";
+        $query = "SELECT job.*, user.nomor 
+          FROM job
+          JOIN user ON job.id_worker = user.id
+          WHERE job.id_worker = '$id'";
         $sql = mysqli_query($connect, $query);
 
         if (mysqli_num_rows($sql) > 0) {
@@ -110,6 +114,7 @@ header('Location: index.php');
                 // Jika status adalah null, tambahkan tombol "View All Pelamar"
                 if ($data['status'] === "On Proses") {
                     echo "<a href='uploadTugas.php?id=" . htmlspecialchars($data['id']) . "' class='btn btn-secondary'>Upload Tugas</a>";
+                    echo "<a href='https://wa.me/" . '62' . substr($data['nomor'], 1) . "' class='btn btn-success m-1'>Hubungi Owner</a>";
                 }
         
                 echo "
