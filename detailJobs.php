@@ -17,7 +17,7 @@ $project = $result->fetch_assoc();
 
 if (!$project) {
     die("Proyek tidak ditemukan.");
-}
+} 
 
 // Menggunakan prepared statement untuk query pekerja
 $id_worker = $project['id_worker'];
@@ -26,6 +26,9 @@ $stmtWorker->bind_param("i", $id_worker);
 $stmtWorker->execute();
 $resultWorker = $stmtWorker->get_result();
 $worker = $resultWorker->fetch_assoc();
+$namaPekerja = isset($worker['nama']) ? $worker['nama'] : '';
+$fotoPekerja = isset($worker['foto_profile']) ? $worker['foto_profile'] : '';
+
 
 // Menggunakan prepared statement untuk query client
 $id_client = $project['id_client'];
@@ -42,6 +45,9 @@ if (!$project) {
 
 if(!$project['status']){
     $status = "published";
+} else {
+    $status = $project['status'];
+    
 }
 
 // Memecah string tags menjadi array
@@ -140,7 +146,7 @@ $worker = [
             </div>
             <div class="col-md-6">
                 <p><strong>Project Status:</strong> <span class="badge-status"><?=$status?></span></p>
-                <p><strong>Accepted Worker:</strong> <?php echo htmlspecialchars($project['id_worker'] ? $worker['nama'] : '-'); ?></p>
+                <p><strong>Accepted Worker:</strong> <?php echo htmlspecialchars($project['id_worker'] ? $namaPekerja : '-'); ?></p>
                 <p><strong>Accepted Budget:</strong> Rp <?php echo htmlspecialchars($project['price'] ?? '-'); ?></p>
                 <p><strong>Project Ending:</strong> <?php echo htmlspecialchars($project['ending'] ?? '-'); ?></p>
             </div>
@@ -167,8 +173,8 @@ $worker = [
                 } else {
                     ?>
                     <div>
-                        <img src="assets/<?php echo htmlspecialchars($worker['foto_profile'] ?? 'default.png'); ?>" alt="Worker Avatar">
-                        <p><strong><?php echo htmlspecialchars($worker['nama'] ?? '-'); ?></strong></p>
+                        <img src="../assets/foto_profile/<?php echo htmlspecialchars($fotoPekerja ?? 'default.png'); ?>" alt="Worker Avatar">
+                        <p><strong><?php echo htmlspecialchars($namaPekerja ?? '-'); ?></strong></p>
                     </div>
                     <?php
                 }

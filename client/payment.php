@@ -4,7 +4,7 @@ if(!isset($_SESSION['status']) || $_SESSION['status'] !== 'login'){
 header('Location: index.php');
 }
 
-include './proses/koneksi.php';
+include '../proses/koneksi.php';
 
 // Mendapatkan ID proyek dari URL
 $id = $_GET['id'] ?? null;
@@ -22,6 +22,8 @@ $result = $stmt->get_result();
 $data = $result->fetch_assoc();
 
 $selected_categories = explode(',', $data['kategori']);
+$price = $data['price'] * 5 / 100;
+$totalPrice =  $data['price'] + $price ;
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -42,28 +44,25 @@ $selected_categories = explode(',', $data['kategori']);
 </head>
 <body>
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container">
-            <a class="navbar-brand" href="#">Freelancer</a>
+            <a class="navbar-brand" href="#">Freelancer Platform</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="home.php">Home</a>
+                        <a class="nav-link active" href="home.php">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="myJobs.php">My Jobs</a>
+                        <a class="nav-link " href="profile.php">Profile</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="profile.php">Profile</a>
+                        <a class="nav-link" href="project.php">Project</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="jobs.php">Jobs</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="proses/logout.php">Logout</a>
+                        <a class="nav-link text-danger" href="../proses/logout.php">Logout</a>
                     </li>
                 </ul>
             </div>
@@ -73,8 +72,8 @@ $selected_categories = explode(',', $data['kategori']);
     <!-- Header -->
     <header class="py-5 bg-primary text-white text-center">
         <div class="container">
-            <h1>Apply for Job</h1>
-            <p>Complete the form below to apply for this job</p>
+            <h1>Payment</h1>
+            <p>Complete the form below to complete payment</p>
         </div>
     </header>
 
@@ -83,39 +82,25 @@ $selected_categories = explode(',', $data['kategori']);
         <div class="card apply-card">
             <div class="card-body">
                 <h3 class="card-title"><?=$data['nama_job']?></h3>
-                <p class="card-text text-muted">Published Budget: <strong><?=$data['budget'] ?></strong></p>
+                <p class="card-text text-muted">Total Budget: <strong><?=$totalPrice ?></strong></p>
                 <p class="card-text text-muted">Posted on: <strong><?=$data['publish_date'] ?></strong></p>
+                <p class="card-text text-muted">Deadline: <strong><?=$data['deadline_job'] ?></strong></p>
+
                 <hr>
 
-                <form action="proses/apply_job_proses.php" method="post" id="applyForm" enctype="multipart/form-data">
-                    <!-- Upload Resume -->
+                <form action="../proses/paymentProses.php" method="post" id="applyForm" enctype="multipart/form-data">
+                    <!-- Upload Bukti Pembayaran -->
                     <div class="form-group">
-                        <label for="resume">Upload Your Resume (PDF)</label>
-                        <input type="file" class="form-control" id="resume" name="resume" required>
-                    </div>
-
-                    <!-- Cover Letter -->
-                    <div class="form-group">
-                        <label for="coverLetter">Cover Letter</label>
-                        <textarea class="form-control" id="deskripsi" name="deskripsi" rows="4" placeholder="Write your cover letter here"></textarea>
-                    </div>
-
-                    <!-- Price -->
-                    <div class="form-group">
-                        <label for="coverLetter">Bid Price</label>
-                        <input type="number" class="form-control" id="bid_price" name="bid_price" ></input>
+                        <label for="resume">Upload Bukti Pembayaran</label>
+                        <input type="file" class="form-control" id="bukti_bayar" name="bukti_bayar" required>
                     </div>
 
                     <div class="mb-3">
                         <input type="hidden" class="form-control" id="id_job" name="id_job" value="<?php echo $data['id']; ?>" required>
                     </div>
 
-                    <div class="mb-3">
-                        <input type="hidden" class="form-control" id="id_worker" name="id_worker" value="<?php echo $_SESSION['id']; ?>" required>
-                    </div>
-
                     <!-- Submit Button -->
-                    <button type="submit" class="btn btn-primary mt-3">Submit Application</button>
+                    <button type="submit" class="btn btn-primary mt-3">Submit</button>
                 </form>
             </div>
         </div>

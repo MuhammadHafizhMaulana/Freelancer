@@ -8,7 +8,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Inisialisasi data dari POST
     $nama_job = ucwords(strtolower($_POST['nama_job']));
     $deskripsi = $_POST['deskripsi'];
-    $deadline = $_POST['deadline'];
+    $deadline = $_POST['deadline_publish'];
     $job_category = $_POST['job_category'];
     $id_client = $_POST['id_client'];
     $detail = $_POST['detail'];
@@ -22,7 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
      
 
     // Persiapkan query dengan prepared statement
-    $query = "INSERT INTO `job`( `id_client`, `nama_job`, `deskripsi`, `budget`, `publish_date`, `kategori`, `detail`, durasi ,`deadline` ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    $query = "INSERT INTO `job`( `id_client`, `nama_job`, `deskripsi`, `budget`, `publish_date`, `kategori`, `detail`, durasi ,`deadline_publish` ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
     $stmt = mysqli_prepare($connect, $query);
 
     if ($stmt) {

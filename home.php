@@ -13,7 +13,7 @@ header('Location: index.php');
     include 'proses/koneksi.php';
 
     // Query untuk mengambil semua job
-    $query = "SELECT * FROM `job` LIMIT 9 ";
+    $query = "SELECT * FROM `job` WHERE `status` = '' OR `status` IS NULL LIMIT 9 ";
     $sql = mysqli_query($connect, $query);
 
     // $query = "SELECT * FROM `pembiayaan` WHERE `id_user` = '$id' ";
@@ -44,6 +44,9 @@ header('Location: index.php');
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             transform: scale(1.05);
             transition: 0.3s;
+        }
+        .job{
+            min-height: 50vh;
         }
     </style>
 </head>
@@ -86,7 +89,7 @@ header('Location: index.php');
     </div>
 
     <!-- Job Section -->
-    <div class="container mt-4">
+    <div class="container job mt-4">
         <h2 class="text-center mb-4">Explore Jobs</h2>
         <div class="row">
             <?php

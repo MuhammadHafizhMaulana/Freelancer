@@ -52,7 +52,7 @@ header('Location: index.php');
                         <a class="nav-link" href="profile.php">Profile</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="projects.php">Projects</a>
+                        <a class="nav-link active" href="project.php">Projects</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link text-danger" href="../proses/logout.php">Logout</a>
@@ -76,6 +76,7 @@ header('Location: index.php');
         <?php
         include '../proses/koneksi.php';
         $id = $_SESSION['id']; // Ambil ID client dari sesi login
+        
 
         // Query untuk mengambil semua job
         $query = "SELECT * FROM `job` WHERE `id_client` = '$id'";

@@ -22,11 +22,14 @@ $budget_max = trim($budgetParts[1] ?? 0);
 
 $selected_categories = explode(',', $project['kategori']);
 
-
+// Menentukan apakah elemen input harus dinonaktifkan
+$disabled = $project['status'] ? 'disabled' : ''; 
 
 if (!$project) {
     die("Proyek tidak ditemukan.");
 }
+
+
 
 // Menggunakan prepared statement untuk query pekerja
 $id_worker = $project['id_worker'];
@@ -55,23 +58,23 @@ $worker = $resultWorker->fetch_assoc();
         <form method="POST" action="../proses/editJob.php">
             <div class="mb-3">
                 <label for="nama_job" class="form-label">Nama Proyek</label>
-                <input type="text" class="form-control" id="nama_job" name="nama_job" value="<?php echo htmlspecialchars($project['nama_job']); ?>" required>
+                <input type="text" class="form-control" id="nama_job" name="nama_job" value="<?php echo htmlspecialchars($project['nama_job']); ?>" <?= $disabled; ?> required>
             </div>
             <div class="mb-3">
                 <label for="deskripsi" class="form-label">Deskripsi</label>
-                <textarea class="form-control" id="deskripsi" name="deskripsi" rows="3" required><?php echo htmlspecialchars($project['deskripsi']); ?></textarea>
+                <textarea class="form-control" id="deskripsi" name="deskripsi" rows="3" required <?= $disabled; ?> ><?php echo htmlspecialchars($project['deskripsi']); ?></textarea>
             </div>
             <div class="mb-3">
                 <label for="budget" class="form-label">Budget Min</label>
-                <input type="number" class="form-control" id="budget_min" name="budget_min" value="<?php echo htmlspecialchars($budget_min); ?>" required>
+                <input type="number" class="form-control" id="budget_min" name="budget_min" value="<?php echo htmlspecialchars($budget_min); ?>" required <?= $disabled; ?> >
             </div>
             <div class="mb-3">
                 <label for="budget" class="form-label">Budget Max</label>
-                <input type="number" class="form-control" id="budget_max" name="budget_max" value="<?php echo htmlspecialchars($budget_max); ?>" required>
+                <input type="number" class="form-control" id="budget_max" name="budget_max" value="<?php echo htmlspecialchars($budget_max); ?>" required <?= $disabled; ?> >
             </div>
             <div class="mb-3">
                 <label for="durasi" class="form-label">Durasi (Hari)</label>
-                <input type="number" class="form-control" id="durasi" name="durasi" value="<?php echo htmlspecialchars($project['durasi']); ?>" required>
+                <input type="number" class="form-control" id="durasi" name="durasi" value="<?php echo htmlspecialchars($project['durasi']); ?>" required <?= $disabled; ?> >
             </div>
            <!-- Job Category -->
             <div class="form-group mb-3">
@@ -97,7 +100,7 @@ $worker = $resultWorker->fetch_assoc();
                             <input class="form-check-input category-checkbox" type="checkbox" 
                                 value="<?php echo htmlspecialchars($category); ?>" 
                                 id="<?php echo strtolower(str_replace(' ', '_', $category)); ?>" 
-                                name="kategori[]" <?php echo $isChecked; ?>>
+                                name="kategori[]" <?php echo $isChecked; ?> <?= $disabled; ?> >
                             <label class="form-check-label" for="<?php echo strtolower(str_replace(' ', '_', $category)); ?>">
                                 <?php echo htmlspecialchars($category); ?>
                             </label>
@@ -109,8 +112,20 @@ $worker = $resultWorker->fetch_assoc();
             <div class="mb-3">
                 <input type="hidden" class="form-control" id="id" name="id" value="<?php echo $project['id']; ?>" required>
             </div>
-            <button type="submit" class="btn btn-success">Simpan Perubahan</button>
-            <a href="project.php" class="btn btn-secondary">Kembali</a>
+             <!-- Tombol Submit -->
+            <?php if (!$project['status']): ?>
+                <button type="submit" class="btn btn-primary">Update Project</button>
+                <a href="project.php" class="btn btn-secondary">Kembali</a>
+            <?php else: ?>
+                <p class="text-danger"><em>Proyek ini tidak dapat diubah karena status sudah ditentukan.</em></p>
+                <a href="project.php" class="btn btn-secondary">Kembali</a>
+                <?php
+                if($project['status'] == "Verify" || $project['status'] == "Waiting Payment" ) {?>
+                    <a href="lihatResult.php?id=<?=$project['id']?>" class="btn btn-success">View Result</a>
+                <?php
+                }
+                ?>
+            <?php endif; ?>
         </form>
     </div>
 

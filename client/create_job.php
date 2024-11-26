@@ -132,7 +132,7 @@ header('Location: index.php');
             <!-- Deadline Publish -->
             <div class="form-group mb-3">
                 <label for="deadline">Deadline Publish</label>
-                <input type="date" class="form-control" id="deadline" name="deadline" required>
+                <input type="date" class="form-control" id="deadline" name="deadline_publish" required>
             </div>
 
             <!-- Submit Button -->

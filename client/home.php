@@ -29,6 +29,8 @@ header('Location: index.php');
         .navbar-brand {
             font-weight: bold;
         }
+
+        
     </style>
 </head>
 <body>
@@ -69,7 +71,7 @@ header('Location: index.php');
                     <div class="card-body">
                         <h5 class="card-title">Your Profile</h5>
                         <p class="card-text">View and update your profile information.</p>
-                        <a href="profile.html" class="btn btn-primary">Go to Profile</a>
+                        <a href="profile.php" class="btn btn-primary">Go to Profile</a>
                     </div>
                 </div>
             </div>
@@ -78,7 +80,7 @@ header('Location: index.php');
                     <div class="card-body">
                         <h5 class="card-title">Create Job/Project</h5>
                         <p class="card-text">Post a new job or project for workers to apply.</p>
-                        <a href="create_job.html" class="btn btn-success">Create Job</a>
+                        <a href="create_job.php" class="btn btn-success">Create Job</a>
                     </div>
                 </div>
             </div>

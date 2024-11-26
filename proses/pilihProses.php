@@ -36,14 +36,14 @@ if ($id_worker && $id_job && $id_lamaran) {
         $stmtLamaran->execute();
 
         // Hitung finish_date berdasarkan start_date dan durasi
-        $finish_date = strtotime($start_date . " + $durasi days");  // Asumsi durasi dalam hari
-        $finish_date = date('Y-m-d H:i:s', $finish_date);  // Ubah ke format tanggal yang sesuai
+        $deadline_job = strtotime($start_date . " + $durasi days");  // Asumsi durasi dalam hari
+        $deadline_job = date('Y-m-d H:i:s', $deadline_job);  // Ubah ke format tanggal yang sesuai
 
         // Update status pekerjaan dan set start_date
         $start_date = date('Y-m-d H:i:s');
-        $sqlJob = "UPDATE job SET status = 'On Proses', start_date = ?, id_worker = ?, price = ?, finish_date = ? WHERE id = ?";
+        $sqlJob = "UPDATE job SET status = 'On Proses', start_date = ?, id_worker = ?, price = ?, deadline_job = ? WHERE id = ?";
         $stmtJob = $connect->prepare($sqlJob);
-        $stmtJob->bind_param("siisi", $start_date, $id_worker, $bid_price, $finish_date, $id_job );  // Bind start_date sebagai string dan id_worker, bid_price, id_job sebagai integer
+        $stmtJob->bind_param("siisi", $start_date, $id_worker, $bid_price, $deadline_job, $id_job );  // Bind start_date sebagai string dan id_worker, bid_price, id_job sebagai integer
         $stmtJob->execute();
 
         // Commit transaksi

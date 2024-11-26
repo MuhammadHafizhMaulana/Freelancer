@@ -76,19 +76,17 @@ header('Location: index.php');
     <div class="container mt-5">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h1 class="text-center">Your Project History</h1>
-            <!-- Button to Create a New Job -->
-            <a href="create_job.php" class="btn btn-primary">
-                <i class="bi bi-plus-circle"></i> Create a New Job
-            </a>
+            
         </div>
         
         <!-- List of Projects -->
         <?php
         include './proses/koneksi.php';
         $id = $_SESSION['id']; // Ambil ID client dari sesi login
+        
 
         // Query untuk mengambil semua job
-        $query = "SELECT * FROM `job` WHERE `id_client` = '$id'";
+        $query = "SELECT * FROM `job` WHERE `id_worker` = '$id'";
         $sql = mysqli_query($connect, $query);
 
         if (mysqli_num_rows($sql) > 0) {
@@ -104,13 +102,14 @@ header('Location: index.php');
                         <p class='card-text'>" . htmlspecialchars($data['deskripsi']) . "</p>
                         <p class='card-text'><strong>Deal Price:</strong> " . htmlspecialchars($data['price']) . "</p>
                         <p class='card-text'><strong>Start Date:</strong> " . htmlspecialchars($data['start_date']) . "</p>
-                        <p class='card-text'><strong>Deadline :</strong> " . htmlspecialchars($data['finish_date']) . "</p>
-                        <a href='detailJob.php?id=" . htmlspecialchars($data['id']) . "' class='btn btn-primary'>Lihat Detail</a>
+                        <p class='card-text'><strong>Deadline :</strong> " . htmlspecialchars($data['deadline_job']) . "</p>
+                        <p class='card-text'><strong>Status :</strong> " . htmlspecialchars($data['status']) . "</p>
+                        <a href='detailJobs.php?id=" . htmlspecialchars($data['id']) . "' class='btn btn-primary'>Lihat Detail</a>
                 ";
         
                 // Jika status adalah null, tambahkan tombol "View All Pelamar"
-                if (!$data['status']) {
-                    echo "<a href='pelamar.php?id=" . htmlspecialchars($data['id']) . "' class='btn btn-secondary'>View All Pelamar</a>";
+                if ($data['status'] === "On Proses") {
+                    echo "<a href='uploadTugas.php?id=" . htmlspecialchars($data['id']) . "' class='btn btn-secondary'>Upload Tugas</a>";
                 }
         
                 echo "
