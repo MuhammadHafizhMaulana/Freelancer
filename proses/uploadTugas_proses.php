@@ -67,7 +67,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             if ($result) {
                 // Redirect jika berhasil
-                header('Location: ../myJobs.php?success=1');
+                header('Location: ../myJobs.php?success=uplod');
                 exit(); // Pastikan eksekusi berhenti setelah redirect
             } else {
                 echo "Tambah data result gagal: " . mysqli_stmt_error($stmt);

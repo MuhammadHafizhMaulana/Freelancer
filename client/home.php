@@ -34,6 +34,14 @@ exit();
     </style>
 </head>
 <body>
+<?php
+// Periksa apakah parameter success ada di URL
+if (isset($_GET['success']) && $_GET['success'] == 'project'): ?>
+    <script>
+        // Tampilkan alert menggunakan JavaScript
+        alert("Project Berhasil Dibuat!");
+    </script>
+<?php endif; ?>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container">

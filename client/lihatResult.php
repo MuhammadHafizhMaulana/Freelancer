@@ -72,6 +72,14 @@ $tags = explode(',', $project['kategori']);
     </style>
 </head>
 <body>
+<?php
+// Periksa apakah parameter success ada di URL
+if (isset($_GET['success']) && $_GET['success'] =='result'): ?>
+    <script>
+        // Tampilkan alert menggunakan JavaScript
+        alert("Tindakan berhasil dilakukan!");
+    </script>
+<?php endif; ?>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container">

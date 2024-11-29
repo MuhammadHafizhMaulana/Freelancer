@@ -37,6 +37,14 @@ exit();
     </style>
 </head>
 <body>
+<?php
+// Periksa apakah parameter success ada di URL
+if (isset($_GET['success']) && $_GET['success'] =='pay'): ?>
+    <script>
+        // Tampilkan alert menggunakan JavaScript
+        alert("Berhasil Mengunggah Bukti Pembayaran!");
+    </script>
+<?php endif; ?>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container">
@@ -80,7 +88,8 @@ exit();
         
 
         // Query untuk mengambil semua job
-        $query = "SELECT * FROM `job` WHERE `id_client` = '$id'";
+        $query = "SELECT * FROM `job` WHERE `id_client` = '$id'
+        ORDER BY FIELD(job.status, '', 'On Proses', 'Done') ASC, job.start_date DESC";
         $sql = mysqli_query($connect, $query);
 
         if (mysqli_num_rows($sql) > 0) {

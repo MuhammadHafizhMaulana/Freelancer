@@ -15,14 +15,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Validasi password dengan pola tertentu
     $passwordPattern = '/^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*()-_=+{};:,<.>])(?=.*[0-9]).{8,}$/';
     if (!preg_match($passwordPattern, $passwordDefault)) {
-        header('Location: ../daftar.php?error=password');
+        header('Location: ../register.php?error=password');
         exit(); // Batalkan proses jika password tidak sesuai pola
     }
 
     // Validasi nomor HP dengan pola tertentu
     $nomorPattern = '/^[0-9]+$/';
     if (!preg_match($nomorPattern, $nomor)) {
-        header('Location: ../registrasi.php?error=nomorFormat');
+        header('Location: ../register.php?error=nomorFormat');
         exit(); // Batalkan proses jika nomor HP tidak sesuai pola
     }
 

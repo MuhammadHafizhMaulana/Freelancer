@@ -87,10 +87,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     
                 // Redirect berdasarkan role
                 if ($data['role'] === "worker") {
-                    header('Location: ./../profile.php?success=1'); // Redirect jika berhasil
+                    header('Location: ./../profile.php?success=foto'); // Redirect jika berhasil
                     exit(); // Pastikan eksekusi berhenti setelah redirect
                 } else if ($data['role'] === "client") {
-                    header('Location: ./../client/profile.php?success=1'); // Redirect jika berhasil
+                    header('Location: ./../client/profile.php?success=foto'); // Redirect jika berhasil
                     exit(); // Pastikan eksekusi berhenti setelah redirect
                 }
             } else {

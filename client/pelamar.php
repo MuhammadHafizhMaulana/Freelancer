@@ -11,7 +11,7 @@ include '../proses/koneksi.php'; // Pastikan file koneksi sudah disiapkan
 $job_id = isset($_GET['id']) ? htmlspecialchars($_GET['id']) : '';
 
 // Query untuk mengambil data dari tabel lamaran berdasarkan ID job
-$sql = "SELECT lamaran.id_worker, lamaran.resume, lamaran.bid_price, lamaran.id, lamaran.status, user.nama, user.nomor 
+$sql = "SELECT lamaran.id_worker, lamaran.resume, lamaran.bid_price, lamaran.id, lamaran.status, lamaran.deskripsi, user.nama, user.nomor 
         FROM lamaran 
         JOIN user ON lamaran.id_worker = user.id 
         WHERE lamaran.id_job = ?";
@@ -39,7 +39,7 @@ $result = $stmt->get_result();
                     <tr>
                         <th>No</th>
                         <th>Nama</th>
-                        <th>No HP</th>
+                        <th>Deskripsi</th>
                         <th>Resume</th>
                         <th>Bid Price</th>
                         <th>Action</th>
@@ -53,7 +53,7 @@ $result = $stmt->get_result();
                         <tr>
                             <td><?php echo $no++; ?></td>
                             <td><?php echo htmlspecialchars($row['nama']); ?></td>
-                            <td><?php echo htmlspecialchars($row['nomor']); ?></td>
+                            <td><?php echo htmlspecialchars($row['deskripsi']); ?></td>
                             <td>
                                 <a href="../assets/file/<?php echo htmlspecialchars($row['resume']); ?>" 
                                 target="_blank" class="btn btn-sm btn-primary">Lihat Resume</a>

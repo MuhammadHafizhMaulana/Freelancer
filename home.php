@@ -17,9 +17,7 @@ exit();
     $query = "SELECT * FROM `job` WHERE `status` = '' OR `status` IS NULL LIMIT 9 ";
     $sql = mysqli_query($connect, $query);
 
-    // $query = "SELECT * FROM `pembiayaan` WHERE `id_user` = '$id' ";
-    // $sql = mysqli_query($connect, $query);
-    // $pembiayaan = mysqli_fetch_assoc($sql);
+    
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -52,6 +50,14 @@ exit();
     </style>
 </head>
 <body>
+<?php
+// Periksa apakah parameter success ada di URL
+if (isset($_GET['success']) && $_GET['success'] == 'apply'): ?>
+    <script>
+        // Tampilkan alert menggunakan JavaScript
+        alert("Lamaran berhasil ditambahkan");
+    </script>
+<?php endif; ?>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">

@@ -71,7 +71,7 @@ exit();
     </header>
         
     <!-- Job Listings -->
-    <div class="container my-5">
+    <div class="container my-5" style="min-height: 60vh;" >
         <div class="row">
         <?php
         if (mysqli_num_rows($sql) > 0) {
@@ -85,7 +85,7 @@ exit();
                     <h5 class="card-title">'. htmlspecialchars($data['nama_job']) .'</h5>
                     <p class="card-text">' . htmlspecialchars(mb_strimwidth($data['deskripsi'], 0, 100, '...')) . '</p>
                     <p class="text-muted">'. htmlspecialchars($data['budget']) .'</p>
-                    <a href="detailJobs.php" class="btn btn-primary btn-sm">View Details</a>
+                    <a href="detailJobs.php?id='. $data['id'].'" class="btn btn-primary btn-sm">View Details</a>
                     <a href="apply.php?id='. $data['id'].'"class="btn btn-success btn-sm">Apply</a>
                 </div>
             </div>

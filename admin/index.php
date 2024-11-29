@@ -29,7 +29,7 @@ if (!isset($_SESSION['status']) || $_SESSION['status'] !== 'login' || $_SESSION[
                     <li class="nav-item"><a class="nav-link" href="manageUsers.php">Manage Users</a></li>
                     <li class="nav-item"><a class="nav-link" href="manageProjects.php">Manage Projects</a></li>
                     <li class="nav-item"><a class="nav-link" href="reports.php">Reports</a></li>
-                    <li class="nav-item"><a class="nav-link btn btn-danger btn-sm text-white" href="../logout.php">Logout</a></li>
+                    <li class="nav-item"><a class="nav-link btn btn-danger btn-sm text-white" href="../proses/logout.php">Logout</a></li>
                 </ul>
             </div>
         </div>

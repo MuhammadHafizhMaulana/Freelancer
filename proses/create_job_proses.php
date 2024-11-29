@@ -35,7 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($result) {
             // Ambil ID pengguna yang baru saja ditambahkan
             // Redirect jika berhasil
-            header('Location: ../client/home.php?success=1');
+            header('Location: ../client/home.php?success=project');
             exit();
         } else {
             // Tampilkan pesan jika gagal

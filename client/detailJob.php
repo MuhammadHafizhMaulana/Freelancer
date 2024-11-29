@@ -71,6 +71,10 @@ $worker = $resultWorker->fetch_assoc();
                 <textarea class="form-control" id="deskripsi" name="deskripsi" rows="3" required <?= $disabled; ?> ><?php echo htmlspecialchars($project['deskripsi']); ?></textarea>
             </div>
             <div class="mb-3">
+                <label for="deskripsi" class="form-label">Detail</label>
+                <textarea class="form-control" id="detail" name="deskripsi" rows="3" required <?= $disabled; ?> ><?php echo htmlspecialchars($project['detail']); ?></textarea>
+            </div>
+            <div class="mb-3">
                 <label for="budget" class="form-label">Budget Min</label>
                 <input type="number" class="form-control" id="budget_min" name="budget_min" value="<?php echo htmlspecialchars($budget_min); ?>" required <?= $disabled; ?> >
             </div>

@@ -45,7 +45,7 @@ if (!$project) {
 }
 
 if(!$project['status']){
-    $status = "published";
+    $status = "Published";
 } else {
     $status = $project['status'];
     
@@ -132,6 +132,7 @@ $worker = [
     <div class="container mt-4">
         <h2 class="text-danger mt-3"><?php echo htmlspecialchars($project['nama_job']); ?></h2>
         <p><?php echo nl2br(htmlspecialchars($project['deskripsi'])); ?></p>
+        <p><?php echo nl2br(htmlspecialchars($project['detail'])); ?></p>
         <div>
             <?php foreach ($tags as $tag): ?>
                 <span class="badge bg-secondary"><?= htmlspecialchars(trim($tag)) ?></span>
@@ -140,7 +141,7 @@ $worker = [
         <div class="row mt-4">
             <div class="col-md-6">
                 <p><strong>Published Budget:</strong> Rp <?php echo htmlspecialchars($project['budget']); ?></p>
-                <p><strong>Finish Days:</strong> <?php echo htmlspecialchars($project['durasi'] ? $project['durasi'] : "" ); ?></p>
+                <p><strong>Deadline:</strong> <?php echo htmlspecialchars($project['durasi'] ? $project['durasi'] : "" ); ?> hari</p>
                 <p><strong>Published Date:</strong> <?php echo htmlspecialchars($project['publish_date'] ? $project['publish_date'] : ""); ?></p>
                 <p><strong>Start Date:</strong> <?php echo htmlspecialchars($project['start_date'] ?  $project['start_date'] : "-"); ?></p>
                 <p><strong>Finish Date:</strong> <?php echo htmlspecialchars($project['finish_date'] ? $project['finish_date'] : "-"); ?></p>
@@ -170,6 +171,7 @@ $worker = [
                     <br>
                     <br>
                     <a href="apply.php?id=<?= $project['id']?>" class="btn btn-success">Place new bid</a>
+                    <a href="viewAllBid.php?id=<?= $project['id']?>" class="btn btn-success">View All Bid</a>
                 <?php
                 } else {
                     ?>

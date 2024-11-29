@@ -75,7 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $result = mysqli_stmt_execute($stmt);
 
             if ($result) {
-                header('Location: ../client/project.php?pesan=success=1');
+                header('Location: ../client/project.php?success=pay');
                 // Redirect jika berhasil
                 exit();
             } else {

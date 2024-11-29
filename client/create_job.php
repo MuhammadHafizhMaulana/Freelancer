@@ -77,10 +77,10 @@ exit();
                 <label class="form-label">Budget Range</label>
                 <div class="row">
                     <div class="col-md-6">
-                        <input type="number" class="form-control" id="budget_min" name="budget_min" placeholder="Minimum Budget (e.g., 500000)" min="0" required>
+                        <input type="number" class="form-control" id="budget_min" name="budget_min" placeholder="Minimum Budget" min="0" required>
                     </div>
                     <div class="col-md-6">
-                        <input type="number" class="form-control" id="budget_max" name="budget_max" placeholder="Maximum Budget (e.g., 10000000)" min="0" required>
+                        <input type="number" class="form-control" id="budget_max" name="budget_max" placeholder="Maximum Budget" min="0" required>
                     </div>
                 </div>
                 <small class="form-text text-muted">Specify the budget range in your local currency.</small>

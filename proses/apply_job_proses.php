@@ -67,7 +67,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             if ($result) {
                 // Redirect jika berhasil
-                header('Location: ../home.php?success=1');
+                header('Location: ../home.php?success=apply');
                 exit(); // Pastikan eksekusi berhenti setelah redirect
             } else {
                 echo "Tambah data lamaran gagal: " . mysqli_stmt_error($stmt); // Menampilkan error jika gagal

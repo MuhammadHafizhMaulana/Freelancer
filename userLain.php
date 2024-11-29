@@ -6,7 +6,7 @@ exit();
 }
 
 include './proses/koneksi.php';
-    $id = $_SESSION['id'];
+    $id = $_GET['id'];
     $query = "SELECT * FROM `user` WHERE `id` = '$id' ";
     $sql = mysqli_query($connect, $query);
     $data = mysqli_fetch_assoc($sql);
@@ -63,7 +63,7 @@ include './proses/koneksi.php';
                         <a class="nav-link" href="myJobs.php">My Jobs</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="Profile.php">Profile</a>
+                        <a class="nav-link" href="Profile.php">Profile</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="jobs.php">Jobs</a>
@@ -83,19 +83,15 @@ include './proses/koneksi.php';
     </div>
 
     <!-- Profile Card -->
-    <div class="container">
+    <div class="container" style="min-height: 60vh;" >
         <div class="row justify-content-center">
             <div class="col-md-6">
                 <div class="profile-card">
                     <div class="mb-3 text-center">
                             <img src="<?= $fotoProfile ?>" alt="Profile Picture" class="rounded-circle mb-3" width="150" height="150">
                             <br>
-                        </div>
-                        <div class="text-center">
-                        <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editProfileModal">Edit Profil</a>
-
                     </div>
-                    <br>
+                        
                     <?php
                         // pesan jika sukses
                         if (isset($_GET['success']) && $_GET['success'] == 'foto') {
@@ -106,44 +102,12 @@ include './proses/koneksi.php';
                         <label for="nama" class="form-label">Full Name</label>
                         <input type="text" class="form-control" id="nama" name="nama" value="<?=$data['nama']?>" disabled>
                     </div>
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="email" name="email" value="<?=$data['email']?>" disabled>
-                    </div>
-                    <div class="mb-3">
-                        <label for="nomor" class="form-label">Phone Number</label>
-                        <input type="text" class="form-control" id="nomor" name="nomor" value="<?=$data['nomor']?>" disabled >
-                    </div>
-                    <div class="mb-3">
-                        <label for="password" class="form-label">Role</label>
-                        <input type="text" class="form-control" value="<?=$data['role']?>" disabled >
-                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Edit Profile Modal -->
-    <div class="modal fade" id="editProfileModal" tabindex="-1" aria-labelledby="editProfileModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="editProfileModalLabel">Edit Profil</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form action="./proses/profileEditProses.php" method="post" enctype="multipart/form-data" >
-                        <div class="mb-3">
-                            <label for="foto_profile" class="form-label">Foto Profile</label>
-                            <input type="file" class="form-control" id="foto_profile" name="foto_profile" required >
-                        </div>
-                        <button type="submit" class="btn btn-success">Simpan</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
+   
     <!-- Footer -->
     <footer class="bg-dark text-white mt-5">
         <div class="container py-3 text-center">

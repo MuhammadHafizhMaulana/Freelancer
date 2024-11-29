@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $updateStmt->execute();
 
         // Redirect setelah update
-        header("Location: ../client/lihatResult.php?id=$id");
+        header("Location: ../client/lihatResult.php?id=$id&&success=result");
         exit();
     }
 }

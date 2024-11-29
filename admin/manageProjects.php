@@ -19,6 +19,18 @@ include '../proses/koneksi.php'; // Pastikan koneksi database tersedia
 </head>
 
 <body>
+<?php
+
+// Periksa apakah parameter message ada di URL
+if (isset($_GET['message'])) {
+    if ($_GET['message'] == 'payment') {
+        echo "<script>alert('Upload Bukti Pembayaran Berhasil!');</script>";
+    } elseif ($_GET['message'] == 'ProjectDeleted') {
+        echo "<script>alert('Project Berhasil Dihapus!');</script>";
+    }
+}
+?>
+
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container-fluid">
@@ -30,7 +42,7 @@ include '../proses/koneksi.php'; // Pastikan koneksi database tersedia
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link" href="manageUsers.php">Manage Users</a></li>
                     <li class="nav-item"><a class="nav-link active" href="manageProjects.php">Manage Projects</a></li>
-                    <li class="nav-item"><a class="nav-link btn btn-danger btn-sm text-white" href="../logout.php">Logout</a></li>
+                    <li class="nav-item"><a class="nav-link btn btn-danger btn-sm text-white" href="../proses/logout.php">Logout</a></li>
                 </ul>
             </div>
         </div>
@@ -68,7 +80,9 @@ include '../proses/koneksi.php'; // Pastikan koneksi database tersedia
                             JOIN 
                                 user AS client ON job.id_client = client.id
                             LEFT JOIN 
-                                user AS worker ON job.id_worker = worker.id;";
+                                user AS worker ON job.id_worker = worker.id
+                            ORDER BY 
+                                FIELD(job.status, 'Done') ASC, job.start_date DESC;";
                     $result = mysqli_query($connect, $query);
                     $no = 1;
 
@@ -88,7 +102,7 @@ include '../proses/koneksi.php'; // Pastikan koneksi database tersedia
                             if ($row['status'] === 'Complete') {
                                 echo " <a href='payProject.php?id=" . $row['id'] . "' class='btn btn-success btn-sm'>Pay</a>";
                             } else if ($row['status'] === 'Done'){
-                                echo " <form action='deleteProject.php' method='POST' class='d-inline'>
+                                echo " <form action='../proses/deleteProject.php' method='POST' class='d-inline'>
                                         <input type='hidden' name='id' value='" . $row['id'] . "'>
                                         <button type='submit' class='btn btn-danger btn-sm'>Delete</button>
                                        </form>";

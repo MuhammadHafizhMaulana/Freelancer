@@ -44,6 +44,14 @@ exit();
     </style>
 </head>
 <body>
+<?php
+// Periksa apakah parameter success ada di URL
+if (isset($_GET['success']) && $_GET['success'] == 'uplod'): ?>
+    <script>
+        // Tampilkan alert menggunakan JavaScript
+        alert("Berhasil Mengunggah! ");
+    </script>
+<?php endif; ?>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
@@ -57,13 +65,13 @@ exit();
                         <a class="nav-link" href="home.php">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="myJobs.php">My Jobs</a>
+                        <a class="nav-link active" href="myJobs.php">My Jobs</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="profile.php">Profile</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" href="jobs.php">Jobs</a>
+                        <a class="nav-link " href="jobs.php">Jobs</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="./proses/logout.php">Logout</a>
@@ -90,7 +98,8 @@ exit();
         $query = "SELECT job.*, user.nomor 
           FROM job
           JOIN user ON job.id_worker = user.id
-          WHERE job.id_worker = '$id'";
+          WHERE job.id_worker = '$id'
+          ORDER BY FIELD(job.status, 'Done') ASC, job.start_date DESC";
         $sql = mysqli_query($connect, $query);
 
         if (mysqli_num_rows($sql) > 0) {

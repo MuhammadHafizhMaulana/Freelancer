@@ -19,6 +19,14 @@ include '../proses/koneksi.php'; // Pastikan koneksi database tersedia
 </head>
 
 <body>
+<?php
+// Periksa apakah parameter success ada di URL
+if (isset($_GET['msg']) && $_GET['msg'] == 'UserDeleted'): ?>
+    <script>
+        // Tampilkan alert menggunakan JavaScript
+        alert("User Berhasil Dihapus!");
+    </script>
+<?php endif; ?>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
         <div class="container-fluid">
@@ -30,7 +38,7 @@ include '../proses/koneksi.php'; // Pastikan koneksi database tersedia
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link active" href="manageUsers.php">Manage Users</a></li>
                     <li class="nav-item"><a class="nav-link" href="manageProjects.php">Manage Projects</a></li>
-                    <li class="nav-item"><a class="nav-link btn btn-danger btn-sm text-white" href="../logout.php">Logout</a></li>
+                    <li class="nav-item"><a class="nav-link btn btn-danger btn-sm text-white" href="../proses/logout.php">Logout</a></li>
                 </ul>
             </div>
         </div>

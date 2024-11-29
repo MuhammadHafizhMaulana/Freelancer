@@ -91,6 +91,13 @@ include '../proses/koneksi.php';
                         <div class="text-center">
                         <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editProfileModal">Edit Profil</a>
                     </div>
+                    <br>
+                    <?php
+                        // pesan jika sukses
+                        if (isset($_GET['success']) && $_GET['success'] == 'foto') {
+                            echo "<div class='alert alert-success'>Foto Profil Berhasil di Unggah</div>";
+                        }
+                        ?>
                     <div class="mb-3">
                         <label for="nama" class="form-label">Full Name</label>
                         <input type="text" class="form-control" id="nama" name="nama" value="<?=$data['nama']?>" disabled>

@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt = $connect->prepare($query);
             $stmt->bind_param("si", $fileName, $projectId);
             if ($stmt->execute()) {
-                header('Location: ./manageProjects.php?message=Payment successful');
+                header('Location: ./manageProjects.php?message=payment');
                 exit();
             } else {
                 echo "Database error: " . $connect->error;
